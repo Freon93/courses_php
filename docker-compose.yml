@@ -1,10 +1,48 @@
 version: "3.8"
 
+networks:
+  mysql_php:
+    driver: bridge
+
+volumes:
+  local_volume:
+    driver: local
+
 services:
   web:
     image: "php:8.3-apache"
     restart: always
     ports:
       - "8081:80"
+    build:
+      dockerfile: .docker/php/Dockerfile
+    depends_on:
+        - mysql_container
     volumes:
       - .:/var/www/html
+    networks:
+      - mysql_php
+
+  mysql_container:
+    image: "mysql:8.3.0"
+    restart: always
+    ports:
+      - "33065:3306"
+    volumes:
+      - local_volume:/var/lib/mysql
+    networks:
+      - mysql_php
+    environment:
+      MYSQL_DATABASE: php_courses_db
+      MYSQL_USER: bohdan
+      MYSQL_PASSWORD: 12345
+
+  adminer:
+    image: "adminer:4.8.1"
+    restart: always
+    ports:
+      - "8083:8080"
+    networks:
+      - mysql_php
+    environment:
+      ADMINER_DESIGN: pepa-linha
