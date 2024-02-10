@@ -34,8 +34,7 @@ services:
       - mysql_php
     environment:
       MYSQL_DATABASE: php_courses_db
-      MYSQL_USER: bohdan
-      MYSQL_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: 12345
 
   adminer:
     image: "adminer:4.8.1"

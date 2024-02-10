@@ -1,45 +1,34 @@
 <?php
 require_once './vendor/autoload.php';
 
-use Classes\User;
+use Classes\Product\Product;
+use Classes\Product\ProductDb;
+use Classes\Product\ProductViewer;
 
 echo '<pre>';
 
-$user1 = new User();
+$product = new Product();
+
+$product->set('quantity', 1);
+$product->set('name', 'Toy');
+
+$productViewer = new ProductViewer($product);
+echo $productViewer->print();
+
+$productDb = new ProductDb($product);
 
 try {
-    echo 'User1: ';
-
-    $user1->setLastName('Petrenko');
-
-    echo User::formatInformation($user1->getAll());
+    echo $productDb->delete();
 } catch (Exception $e) {
-    echo $e->getMessage() . '</br>';
+    echo $e->getMessage();
 }
 
-$user2 = new User();
+echo '<br>';
+
+$product->set('id', 1);
 
 try {
-    echo 'User2: ';
-
-    $user2->setName('Vasyl');
-    $user2->setAge(28);
-
-    echo User::formatInformation($user2->getAll());
+    echo $productDb->delete();
 } catch (Exception $e) {
-    echo $e->getMessage() . '</br>';
-}
-
-$user3 = new User();
-
-try {
-    echo 'User3: ';
-
-    $user3->setName('Ivan');
-    $user3->setAge(25);
-    $user3->setEmail('example@dot.com');
-
-    echo User::formatInformation($user3->getAll());
-} catch (Exception $e) {
-    echo $e->getMessage() . '</br>';
+    echo $e->getMessage();
 }
