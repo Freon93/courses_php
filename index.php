@@ -1,45 +1,32 @@
 <?php
-require_once './vendor/autoload.php';
 
-use Classes\User;
+use Classes\Logger\DeliveryMethods\ByEmail;
+use Classes\Logger\DeliveryMethods\BySms;
+use Classes\Logger\DeliveryMethods\ToConsole;
+use Classes\Logger\Formats\Raw;
+use Classes\Logger\Formats\WithDate;
+use Classes\Logger\Formats\WithDateAndDetails;
+use Classes\Logger\Logger;
+
+require_once './vendor/autoload.php';
 
 echo '<pre>';
 
-$user1 = new User();
+$logger = Logger::getInstance();
 
-try {
-    echo 'User1: ';
+$logger->log('Emergency error! Please fix me!');
+echo "\n";
 
-    $user1->setLastName('Petrenko');
+$logger->changeMessageFormat(WithDate::getInstance());
+$logger->changeDeliveryMethod(BySms::getInstance());
 
-    echo User::formatInformation($user1->getAll());
-} catch (Exception $e) {
-    echo $e->getMessage() . '</br>';
-}
+$logger->log('Emergency error! Please fix me!');
+echo "\n";
 
-$user2 = new User();
+$logger2 = Logger::getInstance(WithDateAndDetails::getInstance(), ByEmail::getInstance());
 
-try {
-    echo 'User2: ';
+$logger2->log('Emergency error! Please fix me!');
+echo "\n";
 
-    $user2->setName('Vasyl');
-    $user2->setAge(28);
-
-    echo User::formatInformation($user2->getAll());
-} catch (Exception $e) {
-    echo $e->getMessage() . '</br>';
-}
-
-$user3 = new User();
-
-try {
-    echo 'User3: ';
-
-    $user3->setName('Ivan');
-    $user3->setAge(25);
-    $user3->setEmail('example@dot.com');
-
-    echo User::formatInformation($user3->getAll());
-} catch (Exception $e) {
-    echo $e->getMessage() . '</br>';
-}
+var_dump($logger);
+var_dump($logger2);
