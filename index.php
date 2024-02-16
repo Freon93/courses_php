@@ -1,32 +1,16 @@
 <?php
 
-use Classes\Logger\DeliveryMethods\ByEmail;
-use Classes\Logger\DeliveryMethods\BySms;
-use Classes\Logger\DeliveryMethods\ToConsole;
-use Classes\Logger\Formats\Raw;
-use Classes\Logger\Formats\WithDate;
-use Classes\Logger\Formats\WithDateAndDetails;
-use Classes\Logger\Logger;
-
 require_once './vendor/autoload.php';
 
-echo '<pre>';
+use Classes\TaxiDelivery\BusinessDelivery;
+use Classes\TaxiDelivery\ComfortDelivery;
+use Classes\TaxiDelivery\EconomDelivery;
 
-$logger = Logger::getInstance();
+$economDelivery = new EconomDelivery();
+$comfortDelivery = new ComfortDelivery();
+$businessDelivery = new BusinessDelivery();
 
-$logger->log('Emergency error! Please fix me!');
-echo "\n";
-
-$logger->changeMessageFormat(WithDate::getInstance());
-$logger->changeDeliveryMethod(BySms::getInstance());
-
-$logger->log('Emergency error! Please fix me!');
-echo "\n";
-
-$logger2 = Logger::getInstance(WithDateAndDetails::getInstance(), ByEmail::getInstance());
-
-$logger2->log('Emergency error! Please fix me!');
-echo "\n";
-
-var_dump($logger);
-var_dump($logger2);
+echo '</pre>';
+echo $economDelivery->getData() . '<br>';
+echo $comfortDelivery->getData() . '<br>';
+echo $businessDelivery->getData() . '<br>';
