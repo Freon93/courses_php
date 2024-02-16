@@ -1,32 +1,44 @@
 <?php
 
-use Classes\Logger\DeliveryMethods\ByEmail;
-use Classes\Logger\DeliveryMethods\BySms;
-use Classes\Logger\DeliveryMethods\ToConsole;
-use Classes\Logger\Formats\Raw;
-use Classes\Logger\Formats\WithDate;
-use Classes\Logger\Formats\WithDateAndDetails;
-use Classes\Logger\Logger;
+use Classes\Contact;
 
 require_once './vendor/autoload.php';
 
 echo '<pre>';
 
-$logger = Logger::getInstance();
+$contact = new Contact();
 
-$logger->log('Emergency error! Please fix me!');
-echo "\n";
+try {
+    $newContact = $contact->phone('000-555-000')
+        ->name("John")
+        ->surname("Surname")
+        ->email("john@email.com")
+        ->address("Some address")
+        ->build();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
-$logger->changeMessageFormat(WithDate::getInstance());
-$logger->changeDeliveryMethod(BySms::getInstance());
+var_dump($contact);
 
-$logger->log('Emergency error! Please fix me!');
-echo "\n";
+$contact2 = new Contact();
 
-$logger2 = Logger::getInstance(WithDateAndDetails::getInstance(), ByEmail::getInstance());
+try {
+    $newContact = $contact2->name("John")
+        ->email("john@email.com")
+        ->build();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
-$logger2->log('Emergency error! Please fix me!');
-echo "\n";
+var_dump($contact2);
 
-var_dump($logger);
-var_dump($logger2);
+$contact2 = new Contact();
+
+try {
+    $newContact = $contact2->build();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+var_dump($contact2);
