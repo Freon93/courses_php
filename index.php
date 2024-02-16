@@ -1,34 +1,32 @@
 <?php
-require_once './vendor/autoload.php';
 
-use Classes\Product\Product;
-use Classes\Product\ProductDb;
-use Classes\Product\ProductViewer;
+use Classes\Logger\DeliveryMethods\ByEmail;
+use Classes\Logger\DeliveryMethods\BySms;
+use Classes\Logger\DeliveryMethods\ToConsole;
+use Classes\Logger\Formats\Raw;
+use Classes\Logger\Formats\WithDate;
+use Classes\Logger\Formats\WithDateAndDetails;
+use Classes\Logger\Logger;
+
+require_once './vendor/autoload.php';
 
 echo '<pre>';
 
-$product = new Product();
+$logger = Logger::getInstance();
 
-$product->set('quantity', 1);
-$product->set('name', 'Toy');
+$logger->log('Emergency error! Please fix me!');
+echo "\n";
 
-$productViewer = new ProductViewer($product);
-echo $productViewer->print();
+$logger->changeMessageFormat(WithDate::getInstance());
+$logger->changeDeliveryMethod(BySms::getInstance());
 
-$productDb = new ProductDb($product);
+$logger->log('Emergency error! Please fix me!');
+echo "\n";
 
-try {
-    echo $productDb->delete();
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+$logger2 = Logger::getInstance(WithDateAndDetails::getInstance(), ByEmail::getInstance());
 
-echo '<br>';
+$logger2->log('Emergency error! Please fix me!');
+echo "\n";
 
-$product->set('id', 1);
-
-try {
-    echo $productDb->delete();
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+var_dump($logger);
+var_dump($logger2);
