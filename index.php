@@ -1,16 +1,44 @@
 <?php
 
+use Classes\Contact;
+
 require_once './vendor/autoload.php';
 
-use Classes\TaxiDelivery\BusinessDelivery;
-use Classes\TaxiDelivery\ComfortDelivery;
-use Classes\TaxiDelivery\EconomDelivery;
+echo '<pre>';
 
-$economDelivery = new EconomDelivery();
-$comfortDelivery = new ComfortDelivery();
-$businessDelivery = new BusinessDelivery();
+$contact = new Contact();
 
-echo '</pre>';
-echo $economDelivery->getData() . '<br>';
-echo $comfortDelivery->getData() . '<br>';
-echo $businessDelivery->getData() . '<br>';
+try {
+    $newContact = $contact->phone('000-555-000')
+        ->name("John")
+        ->surname("Surname")
+        ->email("john@email.com")
+        ->address("Some address")
+        ->build();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+var_dump($contact);
+
+$contact2 = new Contact();
+
+try {
+    $newContact = $contact2->name("John")
+        ->email("john@email.com")
+        ->build();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+var_dump($contact2);
+
+$contact2 = new Contact();
+
+try {
+    $newContact = $contact2->build();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+var_dump($contact2);
