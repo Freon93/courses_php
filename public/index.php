@@ -1,8 +1,8 @@
 <?php
 
-use Classes\Contact;
+use Classes\Contacts\Contact;
 
-require_once './vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 echo '<pre>';
 
@@ -15,30 +15,28 @@ try {
         ->email("john@email.com")
         ->address("Some address")
         ->build();
+
+    var_dump($newContact);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
 
-var_dump($contact);
-
-$contact2 = new Contact();
 
 try {
-    $newContact = $contact2->name("John")
+    $newContact = $contact->name("John")
         ->email("john@email.com")
         ->build();
+
+    var_dump($newContact);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
 
-var_dump($contact2);
-
-$contact2 = new Contact();
 
 try {
-    $newContact = $contact2->build();
+    $newContact = $contact->build();
+
+    var_dump($newContact);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
-
-var_dump($contact2);
