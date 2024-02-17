@@ -5,5 +5,7 @@
             "Classes\\": "classes/"
         }
     },
-    "require": {}
+    "require": {
+      "ext-pdo": "*"
+    }
 }
